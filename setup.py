@@ -43,25 +43,25 @@ class BuildExt(build_ext):
         opts = self.compile_flags.get(ct, [])
         links = []
 
-        # Check for the presence of -fopenmp; if it's there we're good to go!
-        if has_flags(self.compiler, ["-fopenmp"]):
+        # Check for the presence of -OpenMP; if it's there we're good to go!
+        if has_flags(self.compiler, ["-openmp"]):
             # Generic case, this is what GCC accepts
-            opts += ["-fopenmp"]
+            opts += ["-openmp"]
             links += ["-lgomp"]
 
-        elif has_flags(self.compiler, ["-Xpreprocessor", "-fopenmp", "-lomp"]):
+        elif has_flags(self.compiler, ["-Xpreprocessor", "-OpenMP", "-lomp"]):
             # Hope that clang accepts this
-            opts += ["-Xpreprocessor", "-fopenmp", "-lomp"]
+            opts += ["-Xpreprocessor", "-OpenMP", "-lomp"]
             links += ["-lomp"]
 
         elif has_flags(self.compiler, ["-Xpreprocessor",
-                                       "-fopenmp",
+                                       "-OpenMP",
                                        "-lomp",
                                        '-I"$(brew --prefix libomp)/include"',
                                        '-L"$(brew --prefix libomp)/lib"']):
             # Case on MacOS where somebody has installed libomp using homebrew
             opts += ["-Xpreprocessor",
-                     "-fopenmp",
+                     "-openmp",
                      "-lomp",
                      '-I"$(brew --prefix libomp)/include"',
                      '-L"$(brew --prefix libomp)/lib"']
